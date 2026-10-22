@@ -1,0 +1,78 @@
+{
+  "schema_version": "goal-intent/v0", "intent_id": "WEFT-2-SAMPLE-001",
+  "intent": {
+    "raw_text": "生成一份目标编译器 V0 冒烟样本。",
+    "said_at": "2026-10-22", "scope": "this_task"
+  },
+  "goal": {
+    "summary": "生成一份结构完整、可审计的规格样本。",
+    "success_state": "校验器输出 READY，但不执行任何下游动作。"
+  },
+  "non_goals": [
+    "不修改生产代码",
+    "不启动或停止任何服务"
+  ],
+  "assumptions": [],
+  "workspace": ".",
+  "constraints": [
+    "只使用 Python 标准库",
+    "V0 不读取项目文件"
+  ],
+  "current_state_refs": [
+    "目标编译器 V0 已存在，尚未接入工作链"
+  ],
+  "read_paths": [
+    "README.md"
+  ],
+  "write_paths": [
+    "examples/smoke-output.json"
+  ],
+  "forbidden_actions": [
+    "不得读取密钥"
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "description": "生成规格样本",
+      "owner": "codex",
+      "depends_on": []
+    }
+  ],
+  "verification": [
+    {
+      "id": "V1",
+      "type": "command",
+      "description": "运行目标编译器测试",
+      "command": "python tests/test_publication_contract.py",
+      "expected": "PUBLICATION_CONTRACT_TESTS_PASS"
+    }
+  ],
+  "evidence_paths": [
+    "examples/smoke-output.json"
+  ],
+  "rollback": {
+    "strategy": "删除本次新增的冒烟输出。",
+    "verification": "确认目标文件不存在。"
+  },
+  "approval_points": [
+    {
+      "id": "A1",
+      "phase": "before_execute",
+      "required_from": "owner",
+      "status": "granted",
+      "reason": "允许执行合成冒烟样本",
+      "evidence": "synthetic fixture approval"
+    },
+    {
+      "id": "A2",
+      "phase": "before_write",
+      "required_from": "owner",
+      "status": "granted",
+      "reason": "允许写入已声明路径",
+      "evidence": "synthetic fixture approval"
+    }
+  ],
+  "risk": {
+    "declared_level": "low"
+  }
+}

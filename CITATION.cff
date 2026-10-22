@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you reference this software, cite the repository and exact version."
+title: "WEFT 2.0"
+type: software
+version: "2.0.0"
+license: "Apache-2.0"
+authors:
+  - name: "The WEFT Project"
+abstract: >-
+  Deterministic primitives for scoped intent, context trust, and
+  public-action authorization.
