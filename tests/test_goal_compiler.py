@@ -151,8 +151,9 @@ class GoalCompilerTests(unittest.TestCase):
 
     def test_root_write_path_is_blocked(self):
         intent = ready_intent()
-        intent["write_paths"] = ["C:\\"]
-        intent["evidence_paths"] = ["C:\\evidence.json"]
+        root_path = Path.cwd().anchor
+        intent["write_paths"] = [root_path]
+        intent["evidence_paths"] = [str(Path(root_path) / "evidence.json")]
         result = compile_intent(intent)
         self.assertEqual("BLOCKED", result["state"])
         self.assertTrue(
@@ -161,8 +162,11 @@ class GoalCompilerTests(unittest.TestCase):
 
     def test_evidence_boundary_is_never_silently_skipped(self):
         intent = ready_intent()
-        intent["write_paths"] = ["C:\\"]
-        intent["evidence_paths"] = ["C:\\outside\\evidence.json"]
+        root_path = Path.cwd().anchor
+        intent["write_paths"] = [root_path]
+        intent["evidence_paths"] = [
+            str(Path(root_path) / "outside" / "evidence.json")
+        ]
         result = compile_intent(intent)
         self.assertEqual("BLOCKED", result["state"])
         self.assertTrue(
